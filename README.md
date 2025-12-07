@@ -1,65 +1,75 @@
-# Classificação de Câncer Colorretal em Imagens WSI
+# Classificação de Câncer Colorretal em Imagens Histológicas (WSI)
 
-Este projeto implementa um modelo de aprendizado profundo para classificar tipos de tecidos em imagens histológicas de câncer colorretal (WSI - Whole Slide Images). O projeto utiliza uma rede neural convolucional (CNN) baseada na arquitetura ResNet-18.
+Este projeto tem como objetivo classificar imagens de lâminas histológicas (Whole Slide Images - WSI) de câncer colorretal em 6 categorias distintas, utilizando redes neurais convolucionais (CNNs).
 
-## Sobre o Projeto
+## 📊 Dataset
 
-O objetivo é classificar imagens em diferentes categorias histológicas utilizando o dataset **EBHI-SEG** disponível no Kaggle. O código realiza o download, pré-processamento, treinamento e validação do modelo.
+O conjunto de dados utilizado é o **EBHI-SEG**, obtido através do Kaggle. O projeto faz o download e a organização automática do dataset utilizando a biblioteca `kagglehub` e scripts auxiliares.
 
-### Principais Características
-- **Modelo**: ResNet-18 pré-treinada (ImageNet).
-- **Framework**: PyTorch.
-- **Dataset**: Colorectal Cancer WSI (EBHI-SEG).
-- **Métricas**: Acurácia, Perda (Loss) e Matriz de Confusão.
+As imagens são classificadas em 6 categorias:
+- **Normal**
+- **Polyp** (Pólipo)
+- **Low-grade IN** (Neoplasia Intraepitelial de Baixo Grau)
+- **High-grade IN** (Neoplasia Intraepitelial de Alto Grau)
+- **Serrated adenoma** (Adenoma Serrilhado)
+- **Adenocarcinoma**
 
-## Pré-requisitos
+### Pré-processamento
+As imagens são redimensionadas para **224x224** pixels e normalizadas utilizando as médias e desvios padrão do ImageNet, garantindo compatibilidade com os modelos pré-treinados.
 
-As bibliotecas necessárias para executar este projeto estão listadas no arquivo `requirements.txt`. As principais dependências são:
+## 🧠 Modelos Implementados
 
-- `torch`
-- `torchvision`
-- `pandas`
-- `scikit-learn`
-- `seaborn`
-- `matplotlib`
-- `kagglehub`
+O projeto compara dois arquiteturas de CNN:
 
-Para instalar as dependências, execute:
+1.  **ResNet-18**
+    -   Modelo base leve e eficiente.
+    -   Otimizador: Adam
+    -   Resultados: Acurácia aproximada de **~85%**.
+
+2.  **ConvNeXt-Tiny**
+    -   Arquitetura moderna baseada em Transformers (mas puramente convolucional).
+    -   Otimizador: AdamW com Cosine Annealing.
+    -   Resultados: Acurácia superior, atingindo **~92% a 99%** no conjunto de validação.
+
+## 📂 Estrutura do Projeto
+
+```
+.
+├── requirements.txt       # Dependências do projeto
+├── README.md              # Documentação
+└── src/
+    ├── CNN-ResNet18.ipynb # Notebook para treino/validação da ResNet-18
+    ├── CNN-ConvNeXt.ipynb # Notebook para treino/validação da ConvNeXt
+    ├── utils.py           # Scripts para download e estruturação do dataset
+    └── datasets/          # Arquivos CSV definindo os splits de treino/validação
+```
+
+## 🚀 Como Executar
+
+### Pré-requisitos
+Certifique-se de ter Python instalado (recomendado 3.8+).
+
+### Instalação
+Instale as dependências listadas no `requirements.txt`:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## Como Usar
+### Treinamento e Avaliação
+Para reproduzir os resultados, execute os notebooks localizados na pasta `src/`:
 
-1.  **Clone o repositório**:
-    ```bash
-    git clone <url-do-repositorio>
-    cd crc_wsi_classification
-    ```
+1.  Abra o notebook desejado (ex: `src/CNN-ConvNeXt.ipynb`) no Jupyter Lab, VS Code ou Google Colab.
+2.  Execute todas as células.
+    -   O script irá baixar o dataset automaticamente na primeira execução.
+    -   O dataset será reestruturado e dividido em treino/validação conforme definido em `src/datasets/`.
+    -   O modelo será treinado e avaliado, gerando métricas (Acurácia, F1-Score) e Matriz de Confusão.
 
-2.  **Execute o Notebook**:
-    O projeto está contido no notebook `Trabalho_Grau_B_Alessandro_Tyska.ipynb`. Você pode executá-lo localmente usando Jupyter Notebook ou no Google Colab.
+## 📈 Resultados e Métricas
 
-    O notebook realiza os seguintes passos automaticamente:
-    - Download do dataset via `kagglehub`.
-    - Reestruturação das pastas do dataset (remoção de pastas `label` e organização das imagens).
-    - Divisão dos dados em treino (80%) e validação (20%).
-    - Treinamento do modelo ResNet-18 por um número definido de épocas.
-    - Salvamento do modelo treinado em `crc_wsi_model.pth`.
-    - Avaliação do modelo e geração da matriz de confusão.
+A avaliação inclui:
+-   **Acurácia Global**
+-   **Precision, Recall e F1-Score** por classe.
+-   **Matriz de Confusão** para visualização de erros por categoria.
 
-## Estrutura de Arquivos
-
-- `Trabalho_Grau_B_Alessandro_Tyska.ipynb`: Notebook principal com todo o código.
-- `requirements.txt`: Lista de dependências.
-- `crc_wsi_model.pth`: Arquivo do modelo treinado (gerado após a execução).
-- `README.md`: Este arquivo de documentação.
-
-## Resultados
-
-O modelo é avaliado utilizando a acurácia no conjunto de validação e uma matriz de confusão é gerada para visualizar o desempenho em cada classe.
-
-## Autor
-
-Alessandro Tyska
+O modelo **ConvNeXt-Tiny** demonstrou desempenho superior, especialmente na diferenciação entre classes complexas como neoplasias de alto e baixo grau.
