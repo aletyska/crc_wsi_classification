@@ -31,17 +31,23 @@ O projeto compara dois arquiteturas de CNN:
     -   Otimizador: AdamW com Cosine Annealing.
     -   Resultados: Acurácia superior, atingindo **~92% a 99%** no conjunto de validação.
 
+3.  **Swin Transformer (Swin-Tiny)**
+    -   Modelo baseado em hierarquia de janelas deslocadas (Shifted Windows).
+    -   Otimizador: AdamW com Cosine Annealing.
+    -   Resultados: Acurácia de **~92%** no conjunto de validação.
+
 ## 📂 Estrutura do Projeto
 
 ```
 .
 ├── requirements.txt       # Dependências do projeto
 ├── README.md              # Documentação
-└── src/
-    ├── CNN-ResNet18.ipynb # Notebook para treino/validação da ResNet-18
-    ├── CNN-ConvNeXt.ipynb # Notebook para treino/validação da ConvNeXt
-    ├── utils.py           # Scripts para download e estruturação do dataset
-    └── datasets/          # Arquivos CSV definindo os splits de treino/validação
+├── src/
+    ├── CNN-ResNet18.ipynb      # Notebook para treino/validação da ResNet-18
+    ├── CNN-ConvNeXt.ipynb      # Notebook para treino/validação da ConvNeXt
+    ├── Transformer-Swin.ipynb  # Notebook para treino/validação do Swin Transformer
+├── utils.py                    # Scripts para download e estruturação do dataset
+├── datasets/                   # Arquivos CSV definindo os splits de treino/validação
 ```
 
 ## 🚀 Como Executar
